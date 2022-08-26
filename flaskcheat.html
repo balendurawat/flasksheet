@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLASK CHEATSHEET</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap" rel="stylesheet">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+
+
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="prism.css">
+
+    <script src="prism.js"></script>
+
+
+</head>
+
+<body>
+
+    <nav>
+        <span class="logo"><img src="logo.png" alt=""></span>
+
+        <div class="content center">
+            This is my Flask cheatsheet
+        </div>
+
+    </nav>
+
+    <!-- this container will contain the cheetsheet -->
+    <div class="container">
+        <ol>
+            <li>Install flask
+            <pre class="language-python"><code>pip install flask</code></pre>
+            </li>
+
+
+
+            <li>Flask basic app
+<pre class="language-python">
+<code>from flask import flask
+app = flask(__name__)
+</code></pre>
+            </li>
+
+
+            <li><b>Creating a route : </b>it is a decorator and send the client to a particular end point
+                <pre class="language-python">
+<code>@app.route("/")
+def hello():
+    return "Hello World!"
+</code></pre>
+            </li>
+
+
+
+            <li>To run my flask app and to automatically restart the app on making changes we write the debug= true
+                <pre class="language-python">
+<code>app.run(debug=True)</code></pre>
+                            </li>
+
+
+            <li><b>Static Folder : </b> This is used to contain public items like css , js , images, other files</li><br>
+            <li><b>Template Folder : </b> This is used to contain html files and other sensitive data </li><br>
+               
+               
+
+            <li><b>render_template() : </b> this is used to return templates using our python files .for that we first need to import it
+
+
+                <pre class="language-python">
+ <code>from flask import flask , render_template
+</code></pre>
+            </li>
+
+
+            <li>return our render templates
+                <pre class="language-python">
+<code>render_template('filename')</code></pre>
+            </li>
+
+
+
+
+            <li>passing variable to html file
+                <pre class="language-python">
+<code>render_template('filename', variablename = value)</code></pre>
+            </li>
+
+
+            <li>on sending the parameter from python render template we can use that in html as follows:
+                <pre class="language-python">
+<code>&lt;h1&gt; hi welcome {{variablename}} &lt;/h1&gt;</code></pre>
+            </li>
+
+
+
+
+
+            <li>including an image from out static folder.This url_for is of jinja template
+                <pre class="language-python">
+<code>&lt;img src = " {{ url_for('static', filename="filename.png") }}" &gt;</code></pre>
+            </li>
+
+
+
+
+            <li>on sending the parameter from python render template we can use that in html as follows:
+                <pre class="language-python">
+<code>&lt;h1&gt; hi welcome {{parameter}} &lt;/h1&gt;</code></pre>
+            </li>
+
+
+
+            <li><b>For loop in jinja</b>
+                <pre class="language-python">
+<code>&lt;ul&gt; 
+{% for user in users %}
+&lt;li&gt;&lt;a href="{{user.url}}"&gt; {{user.username}}&lt;/a&gt&lt;/li&gt;
+    &lt;/h1&gt;</code></pre>
+            </li>
+
+
+
+
+
+            <li><b>Template Inheritance:</b>The place where we put those jinja blocks simply tells where the layout should be inherited
+                <pre class="language-python">
+<code>{% extends "file.html" %}
+{% block body %}
+    &lt;body&gt; 
+        your code here
+    &lt;/body&gt;
+{% endblock %}
+</code></pre>
+            </li>
+
+
+
+
+    <br>        
+<hr>
+<br>
+
+    <li><b>SQLAlchemy:</b>install SQLAlchemy that we will use for database connection
+<pre class="language-python">
+<code>pip install flask-sqlalchemy</code>
+</pre>
+    </li>
+
+    <li><b>SQLAlchemy:</b>import it in python file
+        <pre class="language-python">
+<code>from flask_sqlalchemy import SQLAlchemy</code></pre>
+    </li>
+
+
+    <li><b>SQLAlchemy:</b>connect to database
+        <pre class="language-python">
+<code>db = SQLAlchemy(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://username:password@localhost/db_name'</code></pre>
+    </li>
+
+    <li><b>SQLAlchemy:</b>connect to database(for localhost users)
+        <pre class="language-python">
+<code>app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/db_name'</code></pre>
+    </li>
+
+
+    <li><b>SQLAlchemy:</b>to access the table we need to create the class
+        <pre class="language-python">
+<code>class Contact(db.Model):
+    sno = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(120), nullable= False)
+</code></pre>
+    </li>
+
+
+
+    <li><b>SQLAlchemy:</b>to fetch data from form and send to database we need to make some changes in our import , we need to import one more thing
+        <pre class="language-python">
+<code>from flask import Flask, render_template, request</code></pre>
+    </li>
+
+
+    <li><b>SQLAlchemy:</b>if a POST request is made then only we will fetch data otherwise not
+        <pre class="language-python">
+<code>@app.route("/contact", methods = ['GET', 'POST'])
+def contact():
+    if(request.method=='POST'):
+        '''Fetch data and add it to the database'''
+    return render_template('contact.html')</code></pre>
+    </li>
+
+
+
+<li><b>SQLAlchemy:</b>to fetch data first give a name attribute to every element in form
+<pre class="language-python">
+<code>&lt;input name="email" type="email" placeholder="Email Address"&gt;</code></pre>
+</li>
+
+
+
+<li><b>SQLAlchemy:</b>give method and action to the form in html file
+<pre class="language-python">
+<code>&lt;form name="sentMessage" action = "/contact" method="post" novalidate</form>&gt;</code></pre>
+</li>
+
+
+<li><b>SQLAlchemy:</b>to fetch data first give a name attribute to every element in form
+<pre class="language-python">
+<code>@app.route("/contact", methods = ['GET', 'POST'])
+def contact():
+    if(request.method=='POST'):
+        '''Add entry to the database'''
+        name = request.form.get('name')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        message = request.form.get('message')
+        entry = Contacts(name=name, phone_num = phone, msg = message, date= datetime.now(),email = email )
+        db.session.add(entry)
+        db.session.commit()
+    return render_template('contact.html')</code></pre>
+</li>
+
+
+
+<br>
+<hr>
+<br>
+
+
+
+
+<li><b>Configurable parameters:</b>making a config.json file
+    <pre class="language-python">
+<code>{
+    "params":
+        {
+            "websitename":"The name of website",
+            "email":"the email we want"
+        }
+    }
+    </code></pre>
+    </li>
+
+    
+<li><b>JSON:</b>for using json we first need to import it in our python app and then use it with the following code
+    <pre class="language-python">
+<code>import json
+with open('config.json','r') as c:
+    params = json.load(c)["params"]
+</code></pre>
+</li>
+
+
+
+<li><b>JSON:</b>sending json to html,here we have passed all the params from json file to the html
+    <pre class="language-python">
+<code>@app.route("/")
+def home():
+    return render_template('index.html',params=params)
+</code></pre>
+</li>
+
+<li><b>JSON:</b>Lets use json in html file and fetch the name of website from our json file
+    <pre class="language-python">
+<code>&lt;h1&gt; {{params['websitename']}} &lt;/h1&gt;</code></pre>
+</li>
+                
+
+
+
+
+<br>
+<hr>
+<br>
+
+
+<li><b>EMAIL:</b>lets try to send email from our website to us when someone fills the form</li><br>
+
+    <li><b>EMAIL:</b>lets first install the module
+        <pre class="language-python">
+<code>pip install flask-mail</code></pre>
+    </li>
+
+    <li><b>EMAIL:</b>setup the flask mail
+<pre class="language-python">
+<code>from flask_mail import Mail</code></pre>
+    </li>
+
+
+    <li><b>EMAIL:</b>configuring the mail flask
+<pre class="language-python">
+<code>app.config.update(
+    MAIL_SERVER = 'smtp.gmail.com',
+    MAIL_PORT = '465',
+    MAIL_USE_SSL = True,
+    MAIL_USERNAME = params['gmail-user'],
+    MAIL_PASSWORD = params['gmail-password']
+)
+mail = Mail(app)</code></pre>
+    </li>
+
+
+
+    <li><b>EMAIL:</b>setup the flask mail
+<pre class="language-python">
+<code>mail = Mail(app)
+    if(local_server):
+        app.config['SQLALCHEMY_DATABASE_URI'] = params['local_uri']
+    else:
+        app.config['SQLALCHEMY_DATABASE_URI'] = params['prod_uri']</code></pre>
+            </li>
+
+
+
+
+
+        </ol>
+    </div>
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,30 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+nav{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(37, 35, 35);
+    color: white;
+    height: 56px;
+}
+
+.content{
+    font-family: 'Potta One', cursive;
+}
+.container{
+    /* background-color: red; */
+    width: 60vw;
+    margin: auto;
+    padding: 32px 0px;
+    font-family: 'Roboto',sans-serif;
+}
+.logo {
+
+}
+.logo img{
+    width: 34px;
+}
